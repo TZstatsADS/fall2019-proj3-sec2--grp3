@@ -2,5 +2,5 @@
 
 ### Code lib Folder
 
-The lib directory contains various files with function definitions and code.
+The lib directory contains various files with function definitions and code for the client model (boosted decision stumps).
 
