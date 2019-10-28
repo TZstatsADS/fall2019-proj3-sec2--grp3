@@ -1,2 +1,5 @@
+# Project: Can you recognize the emotion from an image of a face?
 
-Contains lib and doc folders for client model (boosted decision stumps)
+### Doc folder
+
+The doc directory contains the report or presentation files. It can have subfolders.  
