@@ -44,6 +44,7 @@ library(dplyr)
 library(EBImage)
 library(ggplot2)
 library(caret)
+library(tidyverse)
 ```
 
 ### Step 0 set work directories, extract paths, summarize
@@ -121,6 +122,13 @@ fiducial_pt_list <- lapply(1:n_files, readMat.matrix)
 save(fiducial_pt_list, file="../output/fiducial_pt_list.RData")
 ```
 
+
+```{r select fiducial_pt}
+for (i in 1:2500){
+  fiducial_pt_list[[i]] = fiducial_pt_list[[i]][c(4,8,2,6,13,17,11,15,43,44,45,19,23,25,31,27,33,50,54,59,62,71,41,47,1,10,57,63,55),]
+}
+```
+
 ### Step 3: construct features and responses
 
 + The follow plots show how pairwise distance between fiducial points can work as feature for facial emotion recognition.
@@ -139,7 +147,7 @@ and the midpoint of the upper lip(52).  For example, the distance of an happy fa
   + Output: an RData file that contains extracted features and corresponding responses
 
 ```{r feature}
-source("../lib/feature.R")
+source("../ClientCode/lib/feature.R")
 tm_feature_train <- NA
 if(run.feature.train){
   tm_feature_train <- system.time(dat_train <- feature(fiducial_pt_list, train_idx))
@@ -170,14 +178,14 @@ Call the train model and test model from library.
 + In this Client Code, we use boosted decision stumps on facial landmark features. 
 
 ```{r loadlib}
-source("../lib/train.R")
-source("../lib/test.R")
+source("../ClientCode/lib/train.R")
+source("../ClientCode/lib/test.R")
 ```
 
 #### Model selection with cross-validation
 * Do model selection by choosing among different values of training model parameters.
 ```{r runcv, eval=T}
-source("../lib/cross_validation.R")
+source("../ClientCode/lib/cross_validation.R")
 if(run.cv){
   err_cv <- matrix(0, nrow = length(t), ncol = 2)
   for(i in 1:length(t)){
@@ -201,7 +209,6 @@ if(run.cv){
     geom_crossbar() +
     theme(axis.text.x = element_text(angle = 90, hjust = 1))
 }
-
 ```
 
 
