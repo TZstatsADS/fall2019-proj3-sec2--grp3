@@ -18,6 +18,11 @@ Term: Fall 2019
 + The aim of this project is to improve the baseline model of image classification, which uses boosted decision stumps model.
 + The improved model is a multilayer perceptron neural network, which improved the performance compared to the client’s base model.
 + In the model selection stage, we compared and evaluated SVM, Random Forest,  and multilayer perceptron methods.
++ Following are the results:
+Baseline model: Boosted decision stumps model achieved 42.2% accuracy
+Advanced model: Multilayer perceptron neural model achieved 48.8% accuracy
+Here is the comparison between different models:
+Random Forest model achieved an accuracy rate of 46.6%, 
 
 **Contribution statement**: ([default](doc/a_note_on_contributions.md)) All team members contributed equally in all stages of this project. All team members approve our work presented in this GitHub repository including this contribution statement. 
 
