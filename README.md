@@ -14,8 +14,11 @@ Term: Fall 2019
 	+ Zian Zhou
 	+ Sam Unger
 
-+ Project summary: In this project, we created two classification engines for facial emotion recognition. One model is a boosted decision stumps model used by our client as a baseline, while the other model is a multilayer perceptron neural network intended to have improved performance compared to the client's base model. 
-	
++ Project summary: In this project, we created a classification engine for facial emotion recognition.
++ The aim of this project is to improve the baseline model of image classification, which uses boosted decision stumps model.
++ The improved model is a multilayer perceptron neural network, which improved the performance compared to the client’s base model.
++ In the model selection stage, we compared and evaluated SVM, Random Forest,  and multilayer perceptron methods.
+
 **Contribution statement**: ([default](doc/a_note_on_contributions.md)) All team members contributed equally in all stages of this project. All team members approve our work presented in this GitHub repository including this contribution statement. 
 
 Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by [RICH FITZJOHN](http://nicercode.github.io/about/#Team) (@richfitz). This folder is orgarnized as follows.
