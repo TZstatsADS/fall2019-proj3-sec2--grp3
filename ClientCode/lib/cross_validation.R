@@ -2,7 +2,6 @@
 ### Cross Validation ###
 ########################
 
-### Author: Sam Unger 
 ### Project 3
 
 cv.function <- function(dat_train, K, t){
@@ -23,11 +22,8 @@ cv.function <- function(dat_train, K, t){
   
     par <- list(t=t)
     fit <- train(train.data, par)
-    print(fit)
     pred <- test(fit, test.data)
-    print(head(pred)) ; print(head(test.data$emotion_idx))
     error <- mean(pred != test.data$emotion_idx) 
-    print(error)
     cv.error[i] <- error
     
   }			
