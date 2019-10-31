@@ -25,7 +25,7 @@ Term: Fall 2019
 	+ Random Forest model achieved an accuracy rate of 46.6%
 	+ Multilayer perceptron neural model achieved 48.8% accuracy
 	
-+ Thus, we chose the Multilayer perceptron neural model as our improved model.
++ Thus, we chose the Multilayer perceptron neural model as our improved model. 
 
 **Contribution statement**: ([default](doc/a_note_on_contributions.md)) All team members contributed equally in all stages of this project. All team members approve our work presented in this GitHub repository including this contribution statement. 
 
