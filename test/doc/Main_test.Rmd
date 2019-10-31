@@ -1,0 +1,188 @@
+---
+title: "MMain"
+author: "Zian Zhou"
+date: "29/10/2019"
+output: pdf_document
+---
+
+```{r message=FALSE}
+if(!require("digest")){
+  install.packages("digest")
+}
+if(!require("EBImage")){
+  source("https://bioconductor.org/biocLite.R")
+  biocLite("EBImage")
+}
+if(!require("R.matlab")){
+  install.packages("R.matlab")
+}
+if(!require("readxl")){
+  install.packages("readxl")
+}
+if(!require("dplyr")){
+  install.packages("dplyr")
+}
+if(!require("readxl")){
+  install.packages("readxl")
+}
+
+if(!require("ggplot2")){
+  install.packages("ggplot2")
+}
+
+if(!require("caret")){
+  install.packages("caret")
+}
+
+if(!require("gbm")){
+  install.packages("gbm")
+}
+
+if(!require("RSNNS")){
+  install.packages("RSNNS")
+}
+
+library(R.matlab)
+library(readxl)
+library(dplyr)
+library(EBImage)
+library(ggplot2)
+library(caret)
+library(gbm)
+library(RSNNS)
+```
+
+## Step 0 set work directories, extract paths, summarize
+```{r wkdir, eval=FALSE}
+set.seed(0)
+setwd("~/GitHub/fall2019-proj3-sec2--grp3")
+# here replace it with your own path or manually set it in RStudio to where this rmd file is located. 
+# use relative path for reproducibility
+```
+
+Provide directories for training images. Training images and Training fiducial points will be in different subfolders. 
+```{r}
+test_dir <- "../data/test_set/" # This will be modified for different data sets.
+test_image_dir <- paste(test_dir, "images/", sep="")
+test_pt_dir <- paste(test_dir,  "points/", sep="")
+```
+
+
+## Part 1: Baseline Model
+### Step 1: set up controls for test experiments.
+
+In this chunk, we have a set of controls for the evaluation experiments. 
+
++ (T/F) run evaluation on an independent test set
++ (T/F) process features for test set
+
+```{r exp_setup}
+run.test=TRUE # run evaluation on an independent test set
+run.feature.test=TRUE # process features for test set
+```
+
+Using cross-validation, we find the best parameter of compare the performance of models with different specifications. In this Client Code, t (number of stumps) = 250 is the best parameter for Boosted Decision Stumps.
+
+### Step 2: import data and set the test index
+Fiducial points are stored in matlab format. In this step, we read them and store them in a list.
+```{r read fiducial points}
+#function to read fiducial points
+#input: index
+#output: matrix of fiducial points corresponding to the index
+readMat.matrix <- function(index){
+    return(round(readMat(paste0(test_pt_dir, sprintf("%04d", index), ".mat"))[[1]],0))
+}
+
+#load fiducial points
+n_files <- length(list.files(test_image_dir))
+fiducial_pt_list <- lapply(1:n_files, readMat.matrix)
+save(fiducial_pt_list, file="../output/tfiducial_pt_list.RData")
+```
+
+
+```{r select fiducial_pt}
+for (i in 1:2500){
+  fiducial_pt_list[[i]] = fiducial_pt_list[[i]][c(4,8,2,6,13,17,11,15,43,44,45,19,23,25,31,27,33,50,54,59,62,71,41,47,1,10,57,63,55),]
+}
+```
+
+### Step 3: construct features and responses
+
+```{r exp_setup}
+run.test=TRUE # run evaluation on an independent test set
+run.feature.test=TRUE # process features for test set
+```
+
+```{r feature}
+source("../ClientCode/lib/feature_test.R")
+test_idx <- 1:2500
+tm_feature_test <- NA
+if(run.feature.test){
+  tm_feature_test <- system.time(dat_test <- feature(fiducial_pt_list, test_idx))
+}
+save(dat_test, file="../output/tfeature_test.RData")
+```
+
+### Step 4: Run test on test images
+```{r test}
+source("../ClientCode/lib/test.R")
+tm_test=NA
+if(run.test){
+  load(file="../output/fit_train_client.RData")
+  tm_test <- system.time(pred <- test(fit_train, dat_test))
+}
+
+df <- as.data.frame(cbind(test_idx,pred))
+write.csv(df,"baseline_pred.csv")
+```
+
+### Summarize Running Time
+Prediction performance matters, so does the running times for constructing features and for training the model, especially when the computation resource is limited. 
+```{r running_time}
+cat("Time for constructing testing features=", tm_feature_test[1], "s \n")
+cat("Time for testing model=", tm_test[1], "s \n")
+```
+
+## Part 2: Improved Model
+### Step 1: set up controls for test experiments.
+
+In this chunk, we have a set of controls for the evaluation experiments. 
+
++ (T/F) run evaluation on an independent test set
++ (T/F) process features for test set
+
+```{r exp_setup}
+run.test=TRUE # run evaluation on an independent test set
+run.feature.test=TRUE # process features for test set
+```
+
+Using cross-validation, we find the best parameter of compare the performance of models with different specifications. In this Improved Model code, learnFuncParams = the parameters for the learning function for MLP algorithm.In this Client Code, t (number of stumps) = 250 is the best parameter for Boosted Decision Stumps.
+
+### Step 2: import data and set the test index
+
+Same as the Baseline Model
+
+### Step 3: construct features and responses
+
+Same as the Baseline Model. We use exactly the same features. 
+
+### Step 4: Run test on test images
+```{r test}
+source("../lib/test_mlp.R")
+tm_test=NA
+if(run.test){
+  load(file="../output/fit_train_improved.RData")
+  tm_test <- system.time(pred2 <- test_mlp(fit_train,dat_test))
+}
+
+dff <- as.data.frame(cbind(test_idx,pred2))
+write.csv(dff,"improved_pred.csv")
+```
+
+### Summarize Running Time
+Prediction performance matters, so does the running times for constructing features and for training the model, especially when the computation resource is limited. 
+```{r running_time}
+cat("Time for constructing testing features=", tm_feature_test[1], "s \n")
+cat("Time for testing model=", tm_test[1], "s \n")
+```
+
