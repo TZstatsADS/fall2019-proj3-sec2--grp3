@@ -9,7 +9,7 @@ Term: Fall 2019
 + Section 2, Team 3
 + Team members
 	+ Lihao Xiao
-	+ Stephanie Wong
+	+ Tongyu Wang
 	+ Tiantian Chu
 	+ Zian Zhou
 	+ Sam Unger
@@ -17,6 +17,7 @@ Term: Fall 2019
 + Project summary: In this project, we created a classification engine for facial emotion recognition.
 + The aim of this project is to improve the baseline model of image classification, which uses boosted decision stumps model.
 + The improved model is a multilayer perceptron neural network, which improved the performance compared to the client’s base model.
++ In the feature selection stage, we chose to use the parawise distance of the 79 fiducal points. As a result, each image would have 1332 features to represent each time.
 + In the model selection stage, we compared and evaluated SVM, Random Forest,  and multilayer perceptron methods.
 + Following are the results:
 	+ Boosted decision stumps model achieved approximatelty 40% accuracy
