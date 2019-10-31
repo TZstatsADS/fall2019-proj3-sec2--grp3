@@ -19,10 +19,12 @@ Term: Fall 2019
 + The improved model is a multilayer perceptron neural network, which improved the performance compared to the client’s base model.
 + In the model selection stage, we compared and evaluated SVM, Random Forest,  and multilayer perceptron methods.
 + Following are the results:
-Baseline model: Boosted decision stumps model achieved approximatelty 40% accuracy
-Advanced model: Multilayer perceptron neural model achieved 48.8% accuracy
-Here is the comparison between different models:
-Random Forest model achieved an accuracy rate of 46.6%, 
+	+ Boosted decision stumps model achieved approximatelty 40% accuracy
+	+ SVM achieved 43% accuracy
+	+ Random Forest model achieved an accuracy rate of 46.6%
+	+ Multilayer perceptron neural model achieved 48.8% accuracy
+	
++ Thus, we chose the Multilayer perceptron neural model as our improved model.
 
 **Contribution statement**: ([default](doc/a_note_on_contributions.md)) All team members contributed equally in all stages of this project. All team members approve our work presented in this GitHub repository including this contribution statement. 
 
